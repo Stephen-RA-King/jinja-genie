@@ -87,7 +87,7 @@ class Genie:
 
         return package_hash.hexdigest()
 
-    def use_dynamic_data(self) -> None:
+    def use_dynamic_variables(self) -> None:
         """Get dynamic script name, run it and get the results from a dotenv file.
         """
         print("********* run_dynamic_script ************")
@@ -105,7 +105,21 @@ class Genie:
                 os.remove(env_file)
         print(self._var_dict)
 
-    def use_os_environ(self):
+    def use_env_variables(self):
+        """Add os environ variables to a dictionary
+        """
         print("********* load from Env ************")
         self._var_dict.update({"env": self._osenv})
+        print(self._var_dict)
+
+    def use_manual_variables(self):
+        """Collect manual variables from the workflow and extract into a dictionary.
+        """
+        print("********* load from Variables ************")
+        for variable in self._osenv.get("INPUT_VARIABLES", "").split("\n"):
+            clean_variable = bytes(variable.strip(), "utf-8").decode("unicode_escape")
+            if clean_variable != "":
+                name, value = clean_variable.split("=", 1)
+                self._var_dict.update({name: value})
+                print(f"{name}: {value}")
         print(self._var_dict)
