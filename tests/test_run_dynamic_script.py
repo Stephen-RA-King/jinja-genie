@@ -14,8 +14,3 @@ def test_save_file_hash_db(create_os_environ):
     genie.run_dynamic_script()
 
     # assert pkl_file.exists()
-
-
-
-
-

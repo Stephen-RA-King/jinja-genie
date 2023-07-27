@@ -14,7 +14,7 @@ def test_save_file_hash_db(create_os_environ):
         "action.yaml": "1d3309e61d470e2e95b08d38b843fe22",
         "Dockerfile": "5208ee5e734cde24c49fb1d0975891c7",
         "entrypoint.py": "aa74c3df3f0a5ad0bd4c3b90fdc26265",
-        "LICENSE": "5691d2d44026b88d8928e5e30822cd16"
+        "LICENSE": "5691d2d44026b88d8928e5e30822cd16",
     }
     genie.save_file_hash_db(hashdb)
 
@@ -23,7 +23,3 @@ def test_save_file_hash_db(create_os_environ):
     assert pkl_file.exists()
 
     pkl_file.unlink()
-
-
-
-

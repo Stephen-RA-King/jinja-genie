@@ -17,9 +17,6 @@ def create_os_environ():
     environ["INPUT_DATA_FILE"] = ""
     environ["INPUT_DATA_FORMAT"] = "env"
     environ["INPUT_TEMPLATE"] = ""
-    environ["'INPUT_OUTPUT_FILE"] = ""
+    environ["INPUT_OUTPUT_FILE"] = ""
     environ["INPUT_VARIABLES"] = ""
     return environ
-
-
-
