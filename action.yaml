@@ -13,6 +13,10 @@ inputs:
     description: "A script that retrieves dynamic data"
     required: false
     default: none
+  protect:
+    description: "Turns protection from accidental overwrite for a target on"
+    required: false
+    default: off
   target:
     description: "Target for the rendered template"
     required: true
