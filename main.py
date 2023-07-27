@@ -87,7 +87,9 @@ class Genie:
 
         return package_hash.hexdigest()
 
-    def run_dynamic_script(self):
+    def use_dynamic_data(self) -> None:
+        """Get dynamic script name, run it and get the results from a dotenv file.
+        """
         print("********* run_dynamic_script ************")
         dynamic_script = self._osenv.get("INPUT_DYNAMIC_SCRIPT")
         if os.path.exists(dynamic_script):
@@ -103,5 +105,7 @@ class Genie:
                 os.remove(env_file)
         print(self._var_dict)
 
-
-
+    def use_os_environ(self):
+        print("********* load from Env ************")
+        self._var_dict.update({"env": self._osenv})
+        print(self._var_dict)
