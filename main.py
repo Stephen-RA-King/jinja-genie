@@ -1,9 +1,13 @@
 """Main python script to extract the key, value pairs and render the Jinja2 template.
 """
 import hashlib
+import os
 import pickle
+import subprocess
 from contextlib import suppress
 from pathlib import Path
+
+from j2cli.context import read_context_data
 
 
 class Config:
@@ -69,7 +73,7 @@ class Genie:
         """Generate MD5 hashes for all files within a directory, and the directory.
 
         Args:
-            dir_path (Path): The directory & contents on which to calculate the MD5 hash.
+            dir_path (Path): The directory/ contents on which to calculate the MD5 hash.
 
         Returns:
             str: The generated MD5 hash value.
@@ -82,3 +86,22 @@ class Genie:
                 package_hash.update(file_hash.encode("utf-8"))
 
         return package_hash.hexdigest()
+
+    def run_dynamic_script(self):
+        print("********* run_dynamic_script ************")
+        dynamic_script = self._osenv.get("INPUT_DYNAMIC_SCRIPT")
+        if os.path.exists(dynamic_script):
+            print(f"running dynamic script: {dynamic_script}")
+            print(f"files exists: {os.path.exists(dynamic_script)}")
+            subprocess.run(["python", dynamic_script])
+        env_file = "".join([Path(dynamic_script).stem, ".env"])
+        if os.path.exists(env_file):
+            with open(env_file) as file:
+                contents = read_context_data("env", file, None)
+                print(contents)
+                self._var_dict.update(contents)
+                os.remove(env_file)
+        print(self._var_dict)
+
+
+
