@@ -9,10 +9,10 @@ RESOURCES = ROOT_DIR / "resources"
 SRC_DIR = RESOURCES / "md5_hash_files"
 
 
-def test_use_os_environ(create_os_environ):
+def test_use_env_variables(create_os_environ):
     genie = main.Genie(create_os_environ)
 
-    genie.use_os_environ()
+    genie.use_env_variables()
 
     assert (
         str(genie._var_dict)
