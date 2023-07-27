@@ -1,0 +1,13 @@
+{
+  "APP": {
+    "DEBUG": true,
+    "ENVIRONMENT": "development"
+  },
+  "DATABASE": {
+    "DB": "database",
+    "HOST": "127.0.0.1",
+    "PASSWORD": "********",
+    "PORT": 5432,
+    "USERNAME": "Stephen-RA-King"
+  }
+}

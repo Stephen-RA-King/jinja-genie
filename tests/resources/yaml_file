@@ -1,0 +1,11 @@
+---
+APP:
+  ENVIRONMENT: development
+  DEBUG: true
+
+DATABASE:
+  USERNAME: stephen
+  PASSWORD: P@zzw0rd1
+  HOST: 127.0.0.1
+  PORT: 5432
+  DB: database

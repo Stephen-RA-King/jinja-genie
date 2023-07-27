@@ -1,0 +1,30 @@
+name: "Jinja-Genie Action"
+description: "Apply Jinja2 templating to files in a repository"
+author: "Stephen RA King"
+inputs:
+  data_source:
+    description: 'A source file containing key, value pairs'
+    required: false
+  data_type:
+    description: 'Data type of the data_source - env, toml, yaml, yml, ini, json'
+    required: false
+    default: env
+  dynamic_script:
+    description: "A script that retrieves dynamic data"
+    required: false
+    default: none
+  target:
+    description: "Target for the rendered template"
+    required: true
+  template:
+    description: "The template file that will be rendered with data"
+    required: true
+  variables:
+    description: "Key, value pairs in .env file format (key=value)"
+    required: false
+runs:
+  using: "docker"
+  image: "Dockerfile"
+branding:
+  icon: 'copy'
+  color: 'gray-dark'
