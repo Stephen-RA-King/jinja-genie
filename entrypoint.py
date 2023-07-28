@@ -8,7 +8,7 @@ from main import Genie
 
 def main():
     genie = Genie(os.environ)
-    
+
     genie.use_dynamic_variables()
     genie.use_env_variables()
     genie.use_manual_variables()
