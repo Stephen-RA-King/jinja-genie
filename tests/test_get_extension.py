@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 import main
 
 ROOT_DIR = Path(__file__).parents[0]
@@ -26,4 +25,11 @@ def test_get_extension_none(create_os_environ):
     genie = main.Genie(create_os_environ)
 
     result = genie.get_extension("text.txt")
+    assert result is None
+
+
+def test_get_extension_no_ext(create_os_environ):
+    genie = main.Genie(create_os_environ)
+
+    result = genie.get_extension("text")
     assert result is None
