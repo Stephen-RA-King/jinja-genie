@@ -8,15 +8,12 @@ inputs:
   data_type:
     description: 'Data type of the data_source - env, toml, yaml, yml, ini, json'
     required: false
-    default: env
   dynamic_script:
     description: "A script that retrieves dynamic data"
     required: false
-    default: none
   protect:
     description: "Turns protection from accidental overwrite for a target on"
     required: false
-    default: off
   target:
     description: "Target for the rendered template"
     required: true
