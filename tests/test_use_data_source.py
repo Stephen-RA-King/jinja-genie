@@ -7,12 +7,12 @@ RESOURCES = ROOT_DIR / "resources"
 SRC_DIR = RESOURCES / "md5_hash_files"
 
 
-def test_use_manual_variables(create_input_variables):
-    genie = main.Genie(create_input_variables)
+def test_use_data_source(create_data_source_variables):
+    genie = main.Genie(create_data_source_variables)
 
-    genie.use_manual_variables()
+    genie.use_data_source()
 
     assert (
         str(genie._var_dict)
-        == "{'server_host': 'staging.example.com', 'timeout': '45'}"
+        == "{}"
     )

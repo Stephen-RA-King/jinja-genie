@@ -12,10 +12,12 @@ from pathlib import Path
 
 import yaml
 from j2cli.context import read_context_data
+from jinja2 import StrictUndefined, Template
 
 
 class Config:
     """Configuration class"""
+
     hash_db = ".jinja-genie.pkl"
 
 
@@ -132,7 +134,9 @@ class Genie:
         if data_source:
             print(f"data file {data_source}")
             if self._osenv.get("INPUT_DATA_TYPE", "") == "":
-                data_type = self.get_extension(data_source) or self.determine_file_type(data_source)
+                data_type = self.get_extension(data_source) or self.determine_file_type(
+                    data_source
+                )
                 if data_type is None:
                     raise ValueError("Cannot determine data type for data source")
                 else:
@@ -177,3 +181,20 @@ class Genie:
                 return "toml"
         except NameError:
             pass
+
+    def render_template(self):
+        print("********** Rendering the template ****************")
+        with open(self._osenv["INPUT_TEMPLATE"]) as file:
+            template_kwargs = {}
+            if self._osenv.get("INPUT_STRICT") == "true":
+                template_kwargs.update({"undefined": StrictUndefined})
+            template = Template(str(file.read()), **template_kwargs)
+
+        with open(self._osenv["INPUT_OUTPUT_FILE"], "w") as file:
+            print("********** writing output file ****************")
+            file.write(template.render(**self._var_dict) + "\n")
+        print(
+            f"********** contents of {self._osenv['INPUT_OUTPUT_FILE']} *************"
+        )
+        with open(self._osenv["INPUT_OUTPUT_FILE"], "r") as file:
+            print(file.read())

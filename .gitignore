@@ -167,3 +167,5 @@ cython_debug/
 TODO.txt
 NOTES.txt
 tryout.py
+/tests/tryout.py
+main1.py
