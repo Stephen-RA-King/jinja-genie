@@ -1,12 +1,16 @@
 """Main python script to extract the key, value pairs and render the Jinja2 template.
 """
+import configparser
 import hashlib
+import json
 import os
 import pickle
 import subprocess
+import tomllib
 from contextlib import suppress
 from pathlib import Path
 
+import yaml
 from j2cli.context import read_context_data
 
 
@@ -31,7 +35,7 @@ class Genie:
             None:
         """
         with suppress(FileNotFoundError):
-            with open(Config.hash_db, 'wb') as file:
+            with open(Config.hash_db, "wb") as file:
                 pickle.dump(data, file)
 
     @staticmethod
@@ -45,7 +49,7 @@ class Genie:
             ValueError: If the input is invalid.
         """
         with suppress(FileNotFoundError):
-            with open(Config.hash_db, 'rb') as file:
+            with open(Config.hash_db, "rb") as file:
                 return pickle.load(file)
 
     @staticmethod
@@ -80,7 +84,7 @@ class Genie:
         """
         package_hash = hashlib.md5()
 
-        for path_object in dir_path.rglob('*'):
+        for path_object in dir_path.rglob("*"):
             if path_object.is_file():
                 file_hash = Genie.generate_md5_hash(path_object)
                 package_hash.update(file_hash.encode("utf-8"))
@@ -88,8 +92,7 @@ class Genie:
         return package_hash.hexdigest()
 
     def use_dynamic_variables(self) -> None:
-        """Get dynamic script name, run it and get the results from a dotenv file.
-        """
+        """Get dynamic script name, run it and get the results from a dotenv file."""
         print("********* run_dynamic_script ************")
         dynamic_script = self._osenv.get("INPUT_DYNAMIC_SCRIPT")
         if os.path.exists(dynamic_script):
@@ -105,16 +108,14 @@ class Genie:
                 os.remove(env_file)
         print(self._var_dict)
 
-    def use_env_variables(self):
-        """Add os environ variables to a dictionary
-        """
+    def use_env_variables(self) -> None:
+        """Add os environ variables to a dictionary"""
         print("********* load from Env ************")
         self._var_dict.update({"env": self._osenv})
         print(self._var_dict)
 
-    def use_manual_variables(self):
-        """Collect manual variables from the workflow and extract into a dictionary.
-        """
+    def use_manual_variables(self) -> None:
+        """Collect manual variables from the workflow and extract into a dictionary."""
         print("********* load from Variables ************")
         for variable in self._osenv.get("INPUT_VARIABLES", "").split("\n"):
             clean_variable = bytes(variable.strip(), "utf-8").decode("unicode_escape")
@@ -123,3 +124,56 @@ class Genie:
                 self._var_dict.update({name: value})
                 print(f"{name}: {value}")
         print(self._var_dict)
+
+    def use_data_source(self) -> None:
+        """Process the data source file and extract key, value pairs into dictionary."""
+        print("********* load from Data File ************")
+        data_source: str = self._osenv.get("INPUT_DATA_SOURCE")
+        if data_source:
+            print(f"data file {data_source}")
+            if self._osenv.get("INPUT_DATA_TYPE", "") == "":
+                data_type = self.get_extension(data_source) or self.determine_file_type(data_source)
+                if data_type is None:
+                    raise ValueError("Cannot determine data type for data source")
+                else:
+                    print(f"data_type: {data_type}")
+                    with suppress(FileNotFoundError):
+                        with open(data_source) as file:
+                            contents = read_context_data(data_type, file, None)
+                            print(contents)
+                            self._var_dict.update(contents)
+        print(self._var_dict)
+
+    @staticmethod
+    def get_extension(file: str) -> str:
+        path = Path(file)
+        extension = path.suffix.lower().lstrip(".")
+        if extension in ("toml", "env", "ini", "json", "yml", "yaml"):
+            return extension
+
+    @staticmethod
+    def determine_file_type(file: str | Path) -> str:
+        path = Path(file)
+        with open(path) as f:
+            content = f.read()
+        try:
+            configparser.ConfigParser().read_string(content)
+            return "ini"
+        except configparser.Error:
+            pass
+        try:
+            json.loads(content)
+            return "json"
+        except json.JSONDecodeError:
+            pass
+        try:
+            yaml.safe_load(content)
+            return "yaml"
+        except yaml.YAMLError:
+            pass
+        try:
+            if "=" in content:  # TOML-specific syntax
+                tomllib.loads(content)
+                return "toml"
+        except NameError:
+            pass
