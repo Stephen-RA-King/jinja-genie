@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 
-
 ROOT_DIR = Path(__file__).parents[0]
 env_file = "".join([Path(__file__).stem, ".env"])
 

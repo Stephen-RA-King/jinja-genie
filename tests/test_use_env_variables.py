@@ -1,6 +1,5 @@
-from pathlib import Path
 import os
-
+from pathlib import Path
 
 import main
 
@@ -17,7 +16,7 @@ def test_use_env_variables(create_os_environ):
     assert (
         str(genie._var_dict)
         == "{'env': environ({'INPUT_DYNAMIC_SCRIPT': 'none', 'INPUT_DATA_FILE': '', "
-           "'INPUT_DATA_FORMAT': 'env', 'INPUT_TEMPLATE': '', 'INPUT_OUTPUT_FILE': '', "
-           "'INPUT_VARIABLES': '', 'PYTEST_CURRENT_TEST': "
-           "'test_use_os_environ.py::test_use_os_environ (call)'})}"
+        "'INPUT_DATA_FORMAT': 'env', 'INPUT_TEMPLATE': '', 'INPUT_OUTPUT_FILE': '', "
+        "'INPUT_VARIABLES': '', 'PYTEST_CURRENT_TEST': "
+        "'test_use_os_environ.py::test_use_os_environ (call)'})}"
     )
