@@ -166,3 +166,4 @@ cython_debug/
 *.docx
 TODO.txt
 NOTES.txt
+tryout.py
