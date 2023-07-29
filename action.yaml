@@ -23,6 +23,10 @@ inputs:
   variables:
     description: "Key, value pairs in .env file format (key=value)"
     required: false
+  strict:
+    description: "Fails on missing values"
+    required: false
+    default: false
 runs:
   using: "docker"
   image: "Dockerfile"
