@@ -144,7 +144,7 @@ class Genie:
                     with suppress(FileNotFoundError):
                         with open(data_source) as file:
                             contents = read_context_data(data_type, file, None)
-                            print(contents)
+                            print(f"data source contents: {contents}")
                             self._var_dict.update(contents)
         print(self._var_dict)
 
