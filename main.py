@@ -131,21 +131,22 @@ class Genie:
         """Process the data source file and extract key, value pairs into dictionary."""
         print("********* load from Data File ************")
         data_source: str = self._osenv.get("INPUT_DATA_SOURCE")
+        data_type: str = self._osenv.get("INPUT_DATA_TYPE")
         if data_source:
             print(f"data file {data_source}")
-            if self._osenv.get("INPUT_DATA_TYPE", "") == "":
+            if data_type == "":
                 data_type = self.get_extension(data_source) or self.determine_file_type(
                     data_source
                 )
                 if data_type is None:
                     raise ValueError("Cannot determine data type for data source")
-                else:
-                    print(f"data_type: {data_type}")
-                    with suppress(FileNotFoundError):
-                        with open(data_source) as file:
-                            contents = read_context_data(data_type, file, None)
-                            print(f"data source contents: {contents}")
-                            self._var_dict.update(contents)
+
+            print(f"data_type: {data_type}")
+            with suppress(FileNotFoundError):
+                with open(data_source) as file:
+                    contents = read_context_data(data_type, file, None)
+                    print(f"data source contents: {contents}")
+                    self._var_dict.update(contents)
         print(self._var_dict)
 
     @staticmethod
