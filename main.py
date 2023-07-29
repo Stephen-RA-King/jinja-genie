@@ -190,11 +190,11 @@ class Genie:
                 template_kwargs.update({"undefined": StrictUndefined})
             template = Template(str(file.read()), **template_kwargs)
 
-        with open(self._osenv["INPUT_OUTPUT_FILE"], "w") as file:
+        with open(self._osenv["INPUT_TARGET"], "w") as file:
             print("********** writing output file ****************")
             file.write(template.render(**self._var_dict) + "\n")
         print(
-            f"********** contents of {self._osenv['INPUT_OUTPUT_FILE']} *************"
+            f"********** contents of {self._osenv['INPUT_TARGET']} *************"
         )
-        with open(self._osenv["INPUT_OUTPUT_FILE"], "r") as file:
+        with open(self._osenv["INPUT_TARGET"], "r") as file:
             print(file.read())
