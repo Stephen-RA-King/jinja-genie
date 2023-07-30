@@ -107,7 +107,7 @@ class Genie:
             print("*****  Successfully Updated hashdb file *******")
 
     @staticmethod
-    def protected_status(filename):
+    def protected_status(filename: str) -> bool:
         print("*****  Getting protected status *******")
         path = Path(filename)
         current_hash = Genie.generate_md5_hash(path)
@@ -115,7 +115,7 @@ class Genie:
 
         if current_hash is not None:
             if hashdb:
-                saved_hash = hashdb.get(filename.name, "")
+                saved_hash = hashdb.get(path.name, "")
                 if saved_hash:
                     if current_hash == saved_hash:
                         return True
@@ -158,12 +158,14 @@ class Genie:
     def use_manual_variables(self) -> None:
         """Collect manual variables from the workflow and extract into a dictionary."""
         print("********* load from Variables ************")
+
         for variable in self._osenv.get("INPUT_VARIABLES", "").split("\n"):
             clean_variable = bytes(variable.strip(), "utf-8").decode("unicode_escape")
             if clean_variable != "":
                 name, value = clean_variable.split("=", 1)
                 self._var_dict.update({name: value})
                 print(f"{name}: {value}")
+
         print(self._var_dict)
 
     def use_data_source(self) -> None:
@@ -223,21 +225,30 @@ class Genie:
             pass
 
     def render_template(self):
-        print("********** Rendering the template ****************")
-        with open(self._osenv["INPUT_TEMPLATE"]) as file:
-            template_kwargs = {}
-            if self._osenv.get("INPUT_STRICT") == "true":
-                template_kwargs.update({"undefined": StrictUndefined})
-            template = Template(str(file.read()), **template_kwargs)
+        status = False
+        protect = self._osenv.get("INPUT_PROTECT")
+        if protect:
+            status = Genie.protected_status(self._osenv["INPUT_TARGET"])
 
-        with open(self._osenv["INPUT_TARGET"], "w") as file:
-            print("********** writing output file ****************")
-            file.write(template.render(**self._var_dict) + "\n")
-        print(
-            f"********** contents of {self._osenv['INPUT_TARGET']} *************"
-        )
-        with open(self._osenv["INPUT_TARGET"], "r") as file:
-            print(file.read())
+        if protect == "" or status is True:
+            print("********** Rendering the template ****************")
+            with open(self._osenv["INPUT_TEMPLATE"]) as file:
+                template_kwargs = {}
+                if self._osenv.get("INPUT_STRICT") == "true":
+                    template_kwargs.update({"undefined": StrictUndefined})
+                template = Template(str(file.read()), **template_kwargs)
+
+            with open(self._osenv["INPUT_TARGET"], "w") as file:
+                print("********** writing output file ****************")
+                file.write(template.render(**self._var_dict) + "\n")
+            print(
+                f"********** contents of {self._osenv['INPUT_TARGET']} *************"
+            )
+            with open(self._osenv["INPUT_TARGET"], "r") as file:
+                print(file.read())
+        else:
+            print(f"***** WARNING: Target file has been altered since last templating."
+                  f"It is advisable to update the template")
 
         if self._osenv.get("INPUT_PROTECT") == "true":
             Genie.update_hashdb(self._osenv["INPUT_TARGET"])
