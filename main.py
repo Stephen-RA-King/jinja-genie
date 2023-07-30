@@ -225,7 +225,7 @@ class Genie:
             pass
 
     def render_template(self):
-        status = False
+        status = ""
         protect = self._osenv.get("INPUT_PROTECT")
         if protect:
             status = Genie.protected_status(self._osenv["INPUT_TARGET"])
