@@ -26,10 +26,9 @@ inputs:
   strict:
     description: "Fails on missing values"
     required: false
-    default: false
 runs:
   using: "docker"
   image: "Dockerfile"
 branding:
   icon: 'copy'
-  color: 'gray-dark'
+  color: 'blue'
