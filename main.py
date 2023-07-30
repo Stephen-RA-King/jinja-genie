@@ -232,7 +232,7 @@ class Genie:
 
         print(f"protect: {protect}")
         print(f"status: {status}")
-        
+
         if protect == "" or status is True:
             print("********** Rendering the template ****************")
             with open(self._osenv["INPUT_TEMPLATE"]) as file:
@@ -255,3 +255,11 @@ class Genie:
 
         if self._osenv.get("INPUT_PROTECT") == "true":
             Genie.update_hashdb(self._osenv["INPUT_TARGET"])
+
+        if status is False:
+            raise ValueError("Target file has been updated since last templating")
+
+
+
+
+
