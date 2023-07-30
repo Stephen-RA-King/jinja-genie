@@ -230,6 +230,9 @@ class Genie:
         if protect:
             status = Genie.protected_status(self._osenv["INPUT_TARGET"])
 
+        print(f"protect: {protect}")
+        print(f"status: {status}")
+        
         if protect == "" or status is True:
             print("********** Rendering the template ****************")
             with open(self._osenv["INPUT_TEMPLATE"]) as file:
