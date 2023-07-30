@@ -12,7 +12,8 @@ from pathlib import Path
 
 import yaml
 from j2cli.context import read_context_data
-from jinja2 import StrictUndefined, Template
+from jinja2 import StrictUndefined
+from jinja2 import Template
 
 
 class Config:
@@ -53,9 +54,10 @@ class Genie:
         with suppress(FileNotFoundError):
             with open(Config.hash_db, "rb") as file:
                 return pickle.load(file)
+        return {}
 
     @staticmethod
-    def generate_md5_hash(file_path: Path) -> str:
+    def generate_md5_hash(file_path: Path) -> str | None:
         """Generate MD5 hash for a file.
 
         Args:
@@ -92,6 +94,43 @@ class Genie:
                 package_hash.update(file_hash.encode("utf-8"))
 
         return package_hash.hexdigest()
+
+    @staticmethod
+    def update_hashdb(filename: str):
+        print("*****  Updating hashdb file *******")
+        path = Path(filename)
+        new_hash = Genie.generate_md5_hash(path)
+        if new_hash is not None:
+            hashdb = Genie.load_file_hash_db()
+            hashdb[path.name] = new_hash
+            Genie.save_file_hash_db(hashdb)
+            print("*****  Successfully Updated hashdb file *******")
+
+    @staticmethod
+    def protected_status(filename):
+        print("*****  Getting protected status *******")
+        path = Path(filename)
+        current_hash = Genie.generate_md5_hash(path)
+        hashdb = Genie.load_file_hash_db()
+
+        if current_hash is not None:
+            if hashdb:
+                saved_hash = hashdb.get(filename.name, "")
+                if saved_hash:
+                    if current_hash == saved_hash:
+                        return True
+                    else:
+                        # backup file
+                        print("*****  file changed - backup file *******")
+                        return False
+                else:
+                    # hashdb file exists but file hash is not found
+                    return True
+            else:
+                # hashdb file does not exist
+                return True
+        else:
+            print(f"***** WARNING: Protected file: {filename} cannot be found ****")
 
     def use_dynamic_variables(self) -> None:
         """Get dynamic script name, run it and get the results from a dotenv file."""
@@ -199,3 +238,6 @@ class Genie:
         )
         with open(self._osenv["INPUT_TARGET"], "r") as file:
             print(file.read())
+
+        if self._osenv.get("INPUT_PROTECT") == "true":
+            Genie.update_hashdb(self._osenv["INPUT_TARGET"])
