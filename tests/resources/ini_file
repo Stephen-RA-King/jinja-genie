@@ -3,7 +3,7 @@ ENVIRONMENT = development
 DEBUG = True
 
 [DATABASE]
-USERNAME = {{ cookiecutter.github_username }}
+USERNAME = sking
 PASSWORD = ********
 HOST = 127.0.0.1
 PORT = 5432
