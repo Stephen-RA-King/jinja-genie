@@ -203,7 +203,7 @@ jobs:
 
 #### 4. Using 'dynamic' variables with a script
 
-Create the python script necessary to extract the required data. [(More on this later)](#Using-a-script-to-template-using-dynamic-variables)
+Create the python script necessary to extract the required data. [(More on this later)](#using-a-script-to-template-using-dynamic-variables)
 
 Then specify the script in the workflow file:
 
