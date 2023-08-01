@@ -37,6 +37,7 @@ class Genie:
         Returns:
             None:
         """
+        print("*****  Saving hashdb to file *******")
         try:
             os.remove(Config.hash_db)
             print(f"File '{Config.hash_db}' successfully deleted.")
@@ -49,6 +50,8 @@ class Genie:
             pickle.dump(data, file)
             file.flush()
             print("pickled")
+        print("testing saved file")
+        Genie.load_file_hash_db()
 
     @staticmethod
     def load_file_hash_db() -> dict:
@@ -57,9 +60,12 @@ class Genie:
         Returns:
             dict: The file hashdb data dictionary.
         """
+        print("*****  Loading hashdb from file *******")
         with suppress(FileNotFoundError):
             with open(Config.hash_db, "rb") as file:
-                return pickle.load(file)
+                hashdb = pickle.load(file)
+                print(f"loaded hashdb: {hashdb}")
+                return hashdb
         return {}
 
     @staticmethod
@@ -72,6 +78,7 @@ class Genie:
         Returns:
             str: The generated MD5 hash value.
         """
+        print("*****  Generating MD5 Hash *******")
         with suppress(FileNotFoundError):
             with open(file_path, "rb") as file:
                 md5_hash = hashlib.md5()
