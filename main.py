@@ -40,6 +40,7 @@ class Genie:
         with suppress(FileNotFoundError):
             with open(Config.hash_db, "wb") as file:
                 pickle.dump(data, file)
+                print("pickled")
 
     @staticmethod
     def load_file_hash_db() -> dict:
@@ -100,7 +101,9 @@ class Genie:
         print(f"new hash = {new_hash}")
         if new_hash is not None:
             hashdb = Genie.load_file_hash_db()
+            print(f"original hashdb: {hashdb}")
             hashdb[path.name] = new_hash
+            print(f"updated hashdb: hashdb")
             Genie.save_file_hash_db(hashdb)
             print("*****  Successfully Updated hashdb file *******")
 
