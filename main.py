@@ -29,7 +29,7 @@ class Genie:
 
     @staticmethod
     def save_file_hash_db(data: dict) -> None:
-        """This function does something.
+        """Serialize the hashdb dictionary .
 
         Args:
             data (dict): The file hash data dictionary to serialize.
@@ -43,13 +43,10 @@ class Genie:
 
     @staticmethod
     def load_file_hash_db() -> dict:
-        """This function does something.
+        """De-serialize the hashdb file dictionary.
 
         Returns:
-            dict: The file hash data dictionary.
-
-        Raises:
-            ValueError: If the input is invalid.
+            dict: The file hashdb data dictionary.
         """
         with suppress(FileNotFoundError):
             with open(Config.hash_db, "rb") as file:
@@ -100,6 +97,7 @@ class Genie:
         print("*****  Updating hashdb file *******")
         path = Path(filename)
         new_hash = Genie.generate_md5_hash(path)
+        print(f"new hash = {new_hash}")
         if new_hash is not None:
             hashdb = Genie.load_file_hash_db()
             hashdb[path.name] = new_hash
@@ -116,6 +114,7 @@ class Genie:
         if current_hash is not None:
             if hashdb:
                 saved_hash = hashdb.get(path.name, "")
+                print(f"Saved hash = {saved_hash}\nCurrent hash = {current_hash}")
                 if saved_hash:
                     if current_hash == saved_hash:
                         return True
@@ -125,9 +124,11 @@ class Genie:
                         return False
                 else:
                     # hashdb file exists but file hash is not found
+                    print(f"hashdb file exists but file hash is not found")
                     return True
             else:
                 # hashdb file does not exist
+                print(f"hashdb file does not exist")
                 return True
         else:
             print(f"***** WARNING: Protected file: {filename} cannot be found ****")
