@@ -37,10 +37,18 @@ class Genie:
         Returns:
             None:
         """
-        with suppress(FileNotFoundError):
-            with open(Config.hash_db, "wb") as file:
-                pickle.dump(data, file)
-                print("pickled")
+        try:
+            os.remove(Config.hash_db)
+            print(f"File '{Config.hash_db}' successfully deleted.")
+        except FileNotFoundError:
+            print(f"File '{Config.hash_db}' not found.")
+        except Exception as e:
+            print(f"Error deleting file: {e}")
+
+        with open(Config.hash_db, "wb") as file:
+            pickle.dump(data, file)
+            file.flush()
+            print("pickled")
 
     @staticmethod
     def load_file_hash_db() -> dict:
