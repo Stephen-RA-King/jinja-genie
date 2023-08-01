@@ -121,7 +121,7 @@ class Genie:
                     if current_hash == saved_hash:
                         return True
                     else:
-                        # backup file
+                        # TODO: backup file
                         return False
                 else:
                     # hashdb file exists but file hash is not found
@@ -130,7 +130,8 @@ class Genie:
                 # hashdb file does not exist
                 return True
         else:
-            print(f"***** WARNING: Protected file: {filename} cannot be found ****")
+            # file does not exist
+            return True
 
     def use_dynamic_variables(self) -> None:
         """Get dynamic script name, run it and get the results from a dotenv file."""
