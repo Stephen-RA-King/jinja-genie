@@ -7,11 +7,11 @@ _**Use dynamic templating to keep your templates up to date with any external so
 
 # Contents
 
--   [Features](#-Features)
--   [Quick Start](#-Quick-Start)
--   [Project Rationale](#-Project-Rationale)
--   [Configuration](#-configuration)
--   [Usage](#-usage)
+-   [**Features**](#-Features)
+-   [**Quick Start**](#-Quick-Start)
+-   [**Project Rationale**](#-Project-Rationale)
+-   [**Configuration**](#-configuration)
+-   [**Usage**](#-usage)
     -   [A quick word about the Jinja Templating Language](#a-quick-word-about-the-jinja-templating-language)
     -   [Basic Usage](#basic-usage)
         - [1. Using workflow 'env' static variables](#1-using-workflow-env-static-variables)
@@ -28,10 +28,10 @@ _**Use dynamic templating to keep your templates up to date with any external so
     -   [Using 'Strict' mode](#using-strict-mode)
     -   [Using multiple templating jobs or steps](#using-multiple-templating-jobs-or-steps)
     -   [Completing the Workflow.yaml file](#completing-the-workflowyaml-file)
--   [FAQ](#-faq)
--   [What's new in the next version ](#-whats-new-in-the-next-version-)
--   [License](#-license)
--   [Meta](#ℹ-meta)
+-   [**FAQ**](#-faq)
+-   [**What's new in the next version**](#-whats-new-in-the-next-version-)
+-   [**License**](#-license)
+-   [**Meta**](#ℹ-meta)
 
 
 ## 🌟 Features
@@ -156,7 +156,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Jinja templating using variables
-        uses: Stephen-RA-King/jinja-genie@main
+        uses: Stephen-RA-King/jinja-genie@v1
         with:
           template: templates/variables.txt.j2
           target: targets/variables.txt
@@ -419,8 +419,28 @@ jobs:
       - name: Fetch and Merge Remote Changes
         run: git pull origin main
 
+      - name: Jinja templating using dynamic script
+        uses: Stephen-RA-King/jinja-genie@v1
+        if: always()
+        with:
+          template: templates/counter.txt
+          target: targets/counter.txt
+          dynamic_script: templater.py
+
+      - name: Jinja templating using variables
+        uses: Stephen-RA-King/jinja-genie@v1
+        if: always()
+        with:
+          template: templates/variables.txt.j2
+          target: targets/variables.txt
+          protect: true
+          variables: |
+            server_host=staging.example.com
+            timeout=45
+
       - name: Jinja templating with environment variables
         uses: Stephen-RA-King/jinja-genie@v1
+        if: always()
         with:
           template: templates/env_variables.txt.j2
           target: targets/env_variables.txt
@@ -428,8 +448,18 @@ jobs:
           SERVER_HOST: staging.example.com
           TIMEOUT: 90
 
+      - name: Jinja templating with data file - ini
+        uses: Stephen-RA-King/jinja-genie@v1
+        if: always()
+        with:
+          template: templates/ini_template_file
+          target: targets/ini_target_file
+          data_source: templates/ini_data_file
+          data_type: ini
+
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
+        if: always()
         with:
           author_name: Jinja Genie
           author_email: JinjaGenie@github.com
