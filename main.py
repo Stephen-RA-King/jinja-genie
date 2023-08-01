@@ -19,7 +19,7 @@ from jinja2 import Template
 class Config:
     """Configuration class"""
 
-    hash_db = ".jinja-genie.pkl"
+    hash_db = "jinja-genie.pkl"
 
 
 class Genie:
