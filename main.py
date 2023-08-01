@@ -103,7 +103,7 @@ class Genie:
             hashdb = Genie.load_file_hash_db()
             print(f"original hashdb: {hashdb}")
             hashdb[path.name] = new_hash
-            print(f"updated hashdb: hashdb")
+            print(f"updated hashdb: {hashdb}")
             Genie.save_file_hash_db(hashdb)
             print("*****  Successfully Updated hashdb file *******")
 
