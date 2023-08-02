@@ -4,6 +4,8 @@
 #
 #    pip-compile requirements.in
 #
+beautifulsoup4==4.12.2
+    # via -r requirements.in
 certifi==2023.7.22
     # via requests
 charset-normalizer==3.2.0
@@ -22,5 +24,7 @@ pyyaml==6.0
     #   j2cli
 requests==2.31.0
     # via -r requirements.in
+soupsieve==2.4.1
+    # via beautifulsoup4
 urllib3==2.0.4
     # via requests
