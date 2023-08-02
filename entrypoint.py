@@ -26,8 +26,9 @@ if __name__ == "__main__":
 
     requires = environ_variables["INPUT_REQUIRES"]
     if requires != "":
-        reqs = requires.split("\n")
-        for req in reqs:
-            subprocess.run(["pip", "install", "--no-cache-dir", req])
+        for req in requires.split("\n"):
+            clean_req = bytes(req.strip(), "utf-8").decode("unicode_escape")
+            if clean_req != "":
+                subprocess.run(["pip", "install", "--no-cache-dir", clean_vreq])
 
     SystemExit(main(environ_variables))
