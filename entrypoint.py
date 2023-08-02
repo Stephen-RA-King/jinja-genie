@@ -29,6 +29,6 @@ if __name__ == "__main__":
         for req in requires.split("\n"):
             clean_req = bytes(req.strip(), "utf-8").decode("unicode_escape")
             if clean_req != "":
-                subprocess.run(["pip", "install", "--no-cache-dir", clean_vreq])
+                subprocess.run(["pip", "install", "--no-cache-dir", clean_req])
 
     SystemExit(main(environ_variables))
