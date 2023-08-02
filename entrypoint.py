@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import subprocess
 
 from main import Genie
 
@@ -25,10 +26,8 @@ if __name__ == "__main__":
 
     requires = environ_variables["INPUT_REQUIRES"]
     if requires != "":
-        with open("requirements.txt", mode="a") as file:
-            file.write(requires)
-
-    with open("requirements.txt", mode="r") as file:
-        print(file.read())
+        reqs = requires.split("\n")
+        for req in reqs:
+            subprocess.run(["pip", "install", "--no-cache-dir", req])
 
     SystemExit(main(environ_variables))
