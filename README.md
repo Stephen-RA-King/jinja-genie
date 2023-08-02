@@ -137,7 +137,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Jinja templating with environment variables
-        uses: Stephen-RA-King/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1
         with:
           template: templates/env_variables.txt.j2
           target: targets/env_variables.txt
@@ -156,7 +156,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Jinja templating using variables
-        uses: Stephen-RA-King/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1
         with:
           template: templates/variables.txt.j2
           target: targets/variables.txt
@@ -193,7 +193,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Jinja templating with data file - ini
-        uses: Stephen-RA-King/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1
         with:
           template: templates/ini_template_file
           target: targets/ini_target_file
@@ -213,7 +213,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Jinja templating using dynamic script
-        uses: Stephen-RA-King/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1
         with:
           template: templates/counter.txt
           target: targets/counter.txt
@@ -289,7 +289,7 @@ For obvious reasons I cannot write these scripts for you.
 However it must follow a pattern and contain certain structures:
 
 e.g.
-dynamic_script.py
+dynamic_script.py.   You can use this as a template (pun intended)
 ```python
 #!/usr/bin/env python3
 
@@ -317,7 +317,15 @@ def main():
 if __name__ == "__main__":
     SystemExit(main())
 ```
-Essentially you get as many variables as you like, with whatever methods you like.
+This will produce the following 'env' file:
+
+dynamic_script.env
+```file
+KEY1=value1
+KEY2=value2
+```
+
+Essentially you can get as many variables as you like, with whatever methods you like.
 
 The bottom line is that it must create an 'env' file with the same name
 as the script (in the same location) except with an 'env' extension and thats it.
@@ -349,8 +357,7 @@ If the action determines that the target has been altered since the last templat
 similar to the following in the action run log:
 
 ```file
-***** WARNING: Target file has been altered since last templating.
-It is advisable to update the template *****
+ValueError: Target file has been updated since last templating
 ```
 
 This will give you a chance to revise your work workflow.
@@ -420,7 +427,7 @@ jobs:
         run: git pull origin main
 
       - name: Jinja templating using dynamic script
-        uses: Stephen-RA-King/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1
         if: always()
         with:
           template: templates/counter.txt
@@ -428,7 +435,7 @@ jobs:
           dynamic_script: templater.py
 
       - name: Jinja templating using variables
-        uses: Stephen-RA-King/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1
         if: always()
         with:
           template: templates/variables.txt.j2
@@ -439,7 +446,7 @@ jobs:
             timeout=45
 
       - name: Jinja templating with environment variables
-        uses: Stephen-RA-King/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1
         if: always()
         with:
           template: templates/env_variables.txt.j2
@@ -449,7 +456,7 @@ jobs:
           TIMEOUT: 90
 
       - name: Jinja templating with data file - ini
-        uses: Stephen-RA-King/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1
         if: always()
         with:
           template: templates/ini_template_file
@@ -472,7 +479,17 @@ jobs:
 ---
 Q. Can I use any other language apart from Python to get 'dynamic' variables?
 
-A. No
+A. No.  This would be way to complicated for the docker container.
+
+Q. Does the target file need to exist before template rendering.
+
+A. No. The target will be created by the Jinja engine.  The containing directory must exist though.  Git generally ignores empty directories though.
+You can create empty directories and use a ',gitkeep' file inside these.
+
+Q. Can I use multiple templates / targets for a single step.
+
+A. No. You can use multiple variables per step with a single template / target but you can only use a single template / target pair.
+This may change in subsequent releases. I have already have several ideas on how to implement this.
 
 
 ## 📰 What's new in the next version 
@@ -490,7 +507,7 @@ Distributed under the MIT license.
 
 ---
 [![](assets/linkedin.png)](https://www.linkedin.com/in/sr-king)
-[![](assets/github.png)](https://github.com/Stephen-RA-King)
+[![](assets/github.png)](https://github.com/stephen-ra-king)
 [![](assets/www.png)](https://stephen-ra-king.github.io/justpython/)
 [![](assets/email2.png)](mailto:sking.github@gmail.com)
 
@@ -505,12 +522,12 @@ Author: Stephen R A King ([sking.github@gmail.com](mailto:sking.github@gmail.com
 [bandit-url]: https://github.com/PyCQA/bandit
 [black-image]: https://img.shields.io/badge/code%20style-black-000000.svg
 [black-url]: https://github.com/psf/black
-[codeql-image]: https://github.com/Stephen-RA-King/templatetest/actions/workflows/github-code-scanning/codeql/badge.svg
-[codeql-url]: https://github.com/Stephen-RA-King/templatetest/actions/workflows/github-code-scanning/codeql
+[codeql-image]: https://github.com/stephen-ra-king/templatetest/actions/workflows/github-code-scanning/codeql/badge.svg
+[codeql-url]: https://github.com/stephen-ra-king/templatetest/actions/workflows/github-code-scanning/codeql
 [isort-image]: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336
 [isort-url]: https://github.com/pycqa/isort/
 [license-image]: https://img.shields.io/pypi/l/templatetest
-[license-url]: https://github.com/Stephen-RA-King/templatetest/blob/main/LICENSE
+[license-url]: https://github.com/stephen-ra-king/templatetest/blob/main/LICENSE
 [mypy-image]: http://www.mypy-lang.org/static/mypy_badge.svg
 [mypy-url]: http://mypy-lang.org/
-[wiki]: https://github.com/Stephen-RA-King/templatetest/wiki
+[wiki]: https://github.com/stephen-ra-king/templatetest/wiki
