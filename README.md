@@ -24,6 +24,7 @@ _**Use dynamic templating to keep your templates up to date with any external so
         - [3. yaml](#3-yaml)
         - [4. json](#4-json)
     -   [Using a script to template using dynamic variables](#using-a-script-to-template-using-dynamic-variables)
+        - [Scheduling scripts with cron](#scheduling-scripts-with-cron)
     -   [Protecting a target file](#protecting-a-target-file)
     -   [Using 'Strict' mode](#using-strict-mode)
     -   [Using multiple templating jobs or steps](#using-multiple-templating-jobs-or-steps)
@@ -329,6 +330,24 @@ Essentially you can get as many variables as you like, with whatever methods you
 
 The bottom line is that it must create an 'env' file with the same name
 as the script (in the same location) except with an 'env' extension and thats it.
+
+#### Scheduling scripts with cron
+The ideal way of scheduling a script is with cron. This is very similar to the crontab scheduling system in Unix-like operating systems.
+see [GitHub workflow schedule](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule).
+
+This can be setup using an entry similar to the following in your workflow file:
+
+```file
+on:
+  schedule:
+    - cron: '30 5 * * 1,3'
+```
+You can test your schedules with various online resources:
+
+- [crontab guru](https://crontab.guru/)
+- [cron maker](http://www.cronmaker.com/;jsessionid=node0vlevqvq6v75w1unvqjq07bjn2702230.node0?0)
+- [cron expression generator](https://www.freeformatter.com/cron-expression-generator-quartz.html)
+
 
 ### Protecting a target file
 Obviously with templating you are accepting the fact that the target will be overwritten each time the template is rendered.
