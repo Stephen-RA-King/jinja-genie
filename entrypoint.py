@@ -4,9 +4,7 @@ import os
 from main import Genie
 
 
-def main():
-    env_variables = os.environ
-
+def main(env_variables):
     genie = Genie(os.environ)
     genie.use_env_variables()
 
@@ -23,4 +21,11 @@ def main():
 
 
 if __name__ == "__main__":
-    SystemExit(main())
+    environ_variables = os.environ
+
+    requires = environ_variables["INPUT_REQUIRES"]
+    if requires != "":
+        with open("requirements.txt", mode="a") as file:
+            file.write(requires)
+
+    SystemExit(main(environ_variables))

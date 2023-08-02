@@ -14,6 +14,9 @@ inputs:
   protect:
     description: "Turns protection from accidental overwrite for a target on"
     required: false
+  requires:
+    description: "A list of python requirements for the dynamic_script (if any)"
+    required: false
   target:
     description: "Target for the rendered template"
     required: true

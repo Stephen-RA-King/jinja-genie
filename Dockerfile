@@ -15,9 +15,5 @@ RUN ["pip", "install", "--no-cache-dir", "--upgrade", "pip"]
 # Install the additional production requirements if any
 RUN ["pip", "install", "--no-cache-dir", "-r", "requirements.txt"]
 
-RUN pwd
-RUN ls -l
-RUN ls -l /app/
-
-
+# Now run the entrypoint module
 ENTRYPOINT ["/app/entrypoint.py"]
