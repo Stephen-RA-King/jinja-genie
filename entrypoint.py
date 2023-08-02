@@ -28,4 +28,7 @@ if __name__ == "__main__":
         with open("requirements.txt", mode="a") as file:
             file.write(requires)
 
+    with open("requirements.txt", mode="r") as file:
+        print(file.read())
+
     SystemExit(main(environ_variables))
