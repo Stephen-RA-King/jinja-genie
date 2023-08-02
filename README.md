@@ -25,6 +25,7 @@ _**Use dynamic templating to keep your templates up to date with any external so
         - [4. json](#4-json)
     -   [Using a script to template using dynamic variables](#using-a-script-to-template-using-dynamic-variables)
         - [Scheduling scripts with cron](#scheduling-scripts-with-cron)
+        - [Specifying python requirements for the script](#specifying-python-requirements-for-the-script)
     -   [Protecting a target file](#protecting-a-target-file)
     -   [Using 'Strict' mode](#using-strict-mode)
     -   [Using multiple templating jobs or steps](#using-multiple-templating-jobs-or-steps)
@@ -103,6 +104,7 @@ running.  None of the GitHub action that I searched for provided for this scenar
 | dynamic_script | Path, filename of a script that retrieves dynamic data | False    | "" |
 | env | Key, value pairs in yaml format (key: value) | False    | "" |
 | protect        | Turns protection from accidental overwrite for a target on | False    | "" |
+| requires | A list of python requirements for the dynamic_script (if any) | False | "" |
 | template       | Path , filename for the template file that will be rendered with data | **True** | "" |
 | target | Target for the rendered template | **True** | "" |
 | variables | Key, value pairs in .env file format (key=value) | False    | "" |
@@ -224,13 +226,13 @@ jobs:
 ### Data source file types
 Values to use in the workflow file
 
-| File Type                                                       | workflow value to use |
-|-----------------------------------------------------------------|-----------------------|
-| [Dotenv](https://hexdocs.pm/dotenvy/0.2.0/dotenv-file-format.html)                                                 | env |
-| [Tom's Obvious, Minimal Language](https://toml.io/en/)          | toml |
-| [YAML Ain't Markup Language](https://yaml.org/spec/1.2.2/)      | yaml or yml |
-| [Initialization](https://en.wikipedia.org/wiki/INI_file)   | ini |
-| [JavaScript Object Notation](https://www.json.org/json-en.html) | json |
+| File Type                                                              | workflow value to use |
+|------------------------------------------------------------------------|-----------------------|
+| [**Dotenv**](https://hexdocs.pm/dotenvy/0.2.0/dotenv-file-format.html) | env |
+| [**Tom's Obvious, Minimal Language**](https://toml.io/en/)             | toml |
+| [**YAML Ain't Markup Language**](https://yaml.org/spec/1.2.2/)         | yaml or yml |
+| [**Initialization**](https://en.wikipedia.org/wiki/INI_file)           | ini |
+| [**JavaScript Object Notation**](https://www.json.org/json-en.html)    | json |
 
 
 #### 1. Dotenv
@@ -347,6 +349,31 @@ You can test your schedules with various online resources:
 - [crontab guru](https://crontab.guru/)
 - [cron maker](http://www.cronmaker.com/;jsessionid=node0vlevqvq6v75w1unvqjq07bjn2702230.node0?0)
 - [cron expression generator](https://www.freeformatter.com/cron-expression-generator-quartz.html)
+
+#### Specifying python requirements for the script
+If you are using 3rd party modules in your scripts then you can use the 'requires' input keyword.
+
+It is advisable to pin your requirements as in the following example.
+```file
+      - name: Template readme file
+        uses: stephen-ra-king/jinja-genie@main
+        if: always()
+        with:
+          template: templates/README.md.j2
+          target: README.md
+          protect: true
+          requires: |
+            beautifulsoup4==4.12.2
+            requests==2.31.0
+          dynamic_script: templater.py
+```
+
+
+
+
+
+
+
 
 
 ### Protecting a target file
@@ -513,7 +540,7 @@ This may change in subsequent releases. I have already have several ideas on how
 
 ## 📰 What's new in the next version 
 
-- Undecided yet
+- to be decided
 
 
 ## 📜 License
