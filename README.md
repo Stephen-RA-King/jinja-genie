@@ -72,7 +72,7 @@ jobs:
   template:
     runs-on: ubuntu-latest
       - name: Jinja templating with environment variables
-        uses: stephen-ra-king/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1.1
         with:
           template: config.conf.j2
           target: config.conf
@@ -140,7 +140,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Jinja templating with environment variables
-        uses: stephen-ra-king/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1.1
         with:
           template: templates/env_variables.txt.j2
           target: targets/env_variables.txt
@@ -159,7 +159,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Jinja templating using variables
-        uses: stephen-ra-king/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1.1
         with:
           template: templates/variables.txt.j2
           target: targets/variables.txt
@@ -196,7 +196,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Jinja templating with data file - ini
-        uses: stephen-ra-king/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1.1
         with:
           template: templates/ini_template_file
           target: targets/ini_target_file
@@ -216,7 +216,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Jinja templating using dynamic script
-        uses: stephen-ra-king/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1.1
         with:
           template: templates/counter.txt
           target: targets/counter.txt
@@ -356,7 +356,7 @@ If you are using 3rd party modules in your scripts then you can use the 'require
 It is advisable to pin your requirements as in the following example.
 ```file
       - name: Template readme file
-        uses: stephen-ra-king/jinja-genie@main
+        uses: stephen-ra-king/jinja-genie@1.1
         if: always()
         with:
           template: templates/README.md.j2
@@ -367,14 +367,6 @@ It is advisable to pin your requirements as in the following example.
             requests==2.31.0
           dynamic_script: templater.py
 ```
-
-
-
-
-
-
-
-
 
 ### Protecting a target file
 Obviously with templating you are accepting the fact that the target will be overwritten each time the template is rendered.
@@ -388,7 +380,7 @@ jobs:
   template:
     runs-on: ubuntu-latest
       - name: Jinja templating with environment variables
-        uses: stephen-ra-king/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1.1
         with:
           template: config.conf.j2
           target: config.conf
@@ -428,7 +420,7 @@ jobs:
   template:
     runs-on: ubuntu-latest
       - name: Jinja templating with environment variables
-        uses: stephen-ra-king/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1.1
         with:
           template: config.conf.j2
           target: config.conf
@@ -473,7 +465,7 @@ jobs:
         run: git pull origin main
 
       - name: Jinja templating using dynamic script
-        uses: stephen-ra-king/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1.1
         if: always()
         with:
           template: templates/counter.txt
@@ -481,7 +473,7 @@ jobs:
           dynamic_script: templater.py
 
       - name: Jinja templating using variables
-        uses: stephen-ra-king/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1.1
         if: always()
         with:
           template: templates/variables.txt.j2
@@ -492,7 +484,7 @@ jobs:
             timeout=45
 
       - name: Jinja templating with environment variables
-        uses: stephen-ra-king/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1.1
         if: always()
         with:
           template: templates/env_variables.txt.j2
@@ -502,7 +494,7 @@ jobs:
           TIMEOUT: 90
 
       - name: Jinja templating with data file - ini
-        uses: stephen-ra-king/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@v1.1
         if: always()
         with:
           template: templates/ini_template_file
