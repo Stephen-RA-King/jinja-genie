@@ -11,7 +11,6 @@ from contextlib import suppress
 from pathlib import Path
 
 import yaml
-# from j2cli.context import read_context_data
 from jinja2 import StrictUndefined
 from jinja2 import Template
 
