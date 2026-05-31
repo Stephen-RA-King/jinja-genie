@@ -72,7 +72,7 @@ jobs:
   template:
     runs-on: ubuntu-latest
       - name: Jinja templating with environment variables
-        uses: stephen-ra-king/jinja-genie@v1.1
+        uses: stephen-ra-king/jinja-genie@v1.2.1
         with:
           template: config.conf.j2
           target: config.conf
@@ -382,7 +382,7 @@ jobs:
   template:
     runs-on: ubuntu-latest
       - name: Jinja templating with environment variables
-        uses: stephen-ra-king/jinja-genie@v1.1
+        uses: stephen-ra-king/jinja-genie@v1.2.1
         with:
           template: config.conf.j2
           target: config.conf
@@ -422,7 +422,7 @@ jobs:
   template:
     runs-on: ubuntu-latest
       - name: Jinja templating with environment variables
-        uses: stephen-ra-king/jinja-genie@v1.1
+        uses: stephen-ra-king/jinja-genie@v1.2.1
         with:
           template: config.conf.j2
           target: config.conf
@@ -475,7 +475,7 @@ jobs:
           dynamic_script: templater.py
 
       - name: Jinja templating using variables
-        uses: stephen-ra-king/jinja-genie@v1.1
+        uses: stephen-ra-king/jinja-genie@v1.2.1
         if: always()
         with:
           template: templates/variables.txt.j2
@@ -486,7 +486,7 @@ jobs:
             timeout=45
 
       - name: Jinja templating with environment variables
-        uses: stephen-ra-king/jinja-genie@v1.1
+        uses: stephen-ra-king/jinja-genie@v1.2.1
         if: always()
         with:
           template: templates/env_variables.txt.j2
@@ -496,7 +496,7 @@ jobs:
           TIMEOUT: 90
 
       - name: Jinja templating with data file - ini
-        uses: stephen-ra-king/jinja-genie@v1.1
+        uses: stephen-ra-king/jinja-genie@v1.2.1
         if: always()
         with:
           template: templates/ini_template_file

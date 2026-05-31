@@ -1,0 +1,22 @@
+name: Update README version
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Update version in README
+        run: |
+          NEW_VERSION="${{ github.event.release.tag_name }}"
+          sed -i "s|stephen-ra-king/jinja-genie@[^ ]*|stephen-ra-king/jinja-genie@${NEW_VERSION}|g" README.md
+
+      - name: Commit updated README
+        uses: EndBug/add-and-commit@v10
+        with:
+          message: "docs: update README to ${{ github.event.release.tag_name }}"
+          add: README.md
