@@ -1,6 +1,6 @@
-_**A GitHub action that leverages the Jinja2 and j2cli python libraries for templating files in your repository.**_
+_**A GitHub action that leverages the Jinja2 python library for templating files in your repository.**_
 
-_**Use dynamic templating to keep your templates up to date with any external source like a scraped item from the web or a database entry etc.**_ 
+_**Use dynamic templating to keep your repository files up to date with any external source like a scraped item from the web or a database entry etc.**_ 
 
 
 ![](assets/jina-genie.png)
@@ -36,7 +36,7 @@ _**Use dynamic templating to keep your templates up to date with any external so
 -   [**Meta**](#ℹ-meta)
 
 
-## 🌟 Features
+## :star2: Features
 
 ---
 - Use various sources for variable inputs:
@@ -52,7 +52,7 @@ _**Use dynamic templating to keep your templates up to date with any external so
 - specify target files to protect from accidental templating
 - Leverage the Jinja2 templating language
 
-## 🚀 Quick Start
+## :rocket: Quick Start
 
 ---
 - Create your template file
@@ -83,15 +83,16 @@ jobs:
 ...
 ```
 
-## ❓ Project Rationale
+## :question: Project Rationale
 
 ---
 I have a project with a readme which references the current project count on PyPI.
 Obviously this count is very dynamic and changes hour by hour.  Manually updating this reference is out of the question.
 I needed a templating solution utilizing the Jinja templating language with an automated solution periodically
-running.  None of the GitHub action that I searched for provided for this scenario.
+running.  None of the GitHub actions that I searched for provided for this scenario.
+To see how this action works in a live repository see: [Pynamer](https://github.com/Stephen-RA-King/pynamer)
 
-## ⚙️ Configuration
+## :gear: Configuration
 
 ---
 ### Inputs
@@ -111,7 +112,7 @@ running.  None of the GitHub action that I searched for provided for this scenar
 | strict | Determines if action will fail on missing values | False    | "" |
 
 
-## 📝 Usage
+## :keyboard: Usage
 
 ---
 ### A quick word about the Jinja Templating Language
@@ -140,7 +141,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Jinja templating with environment variables
-        uses: stephen-ra-king/jinja-genie@v1.1
+        uses: stephen-ra-king/jinja-genie@v1.2.1
         with:
           template: templates/env_variables.txt.j2
           target: targets/env_variables.txt
@@ -159,7 +160,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Jinja templating using variables
-        uses: stephen-ra-king/jinja-genie@v1.1
+        uses: stephen-ra-king/jinja-genie@v1.2.1
         with:
           template: templates/variables.txt.j2
           target: targets/variables.txt
@@ -196,7 +197,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Jinja templating with data file - ini
-        uses: stephen-ra-king/jinja-genie@v1.1
+        uses: stephen-ra-king/jinja-genie@v1.2.1
         with:
           template: templates/ini_template_file
           target: targets/ini_target_file
@@ -216,7 +217,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Jinja templating using dynamic script
-        uses: stephen-ra-king/jinja-genie@v1.1
+        uses: stephen-ra-king/jinja-genie@v1.2.1
         with:
           template: templates/counter.txt
           target: targets/counter.txt
@@ -330,8 +331,9 @@ KEY2=value2
 
 Essentially you can get as many variables as you like, with whatever methods you like.
 
-The bottom line is that it must create an 'env' file with the same name
-as the script (in the same location) except with an 'env' extension and thats it.
+> [!NOTE] 
+> The bottom line is that the script must create an 'env' file with the same name
+as the script (in the same location) except with an 'env' extension and that's it.
 
 #### Scheduling scripts with cron
 The ideal way of scheduling a script is with cron. This is very similar to the crontab scheduling system in Unix-like operating systems.
@@ -356,7 +358,7 @@ If you are using 3rd party modules in your scripts then you can use the 'require
 It is advisable to pin your requirements as in the following example.
 ```file
       - name: Template readme file
-        uses: stephen-ra-king/jinja-genie@1.1
+        uses: stephen-ra-king/jinja-genie@1.2.1
         if: always()
         with:
           template: templates/README.md.j2
@@ -465,7 +467,7 @@ jobs:
         run: git pull origin main
 
       - name: Jinja templating using dynamic script
-        uses: stephen-ra-king/jinja-genie@v1.1
+        uses: stephen-ra-king/jinja-genie@v1.2.1
         if: always()
         with:
           template: templates/counter.txt
@@ -512,7 +514,7 @@ jobs:
           add: .
 ```
 
-## ❓ FAQ
+## :question: FAQ
 
 ---
 Q. Can I use any other language apart from Python to get 'dynamic' variables?
@@ -530,18 +532,18 @@ A. No. You can use multiple variables per step with a single template / target b
 This may change in subsequent releases. I have already have several ideas on how to implement this.
 
 
-## 📰 What's new in the next version 
+## :newspaper: What's new in the next version 
 
 - to be decided
 
 
-## 📜 License
+## :scroll: License
 
 ---
 Distributed under the MIT license.
 
 
-## <ℹ️> Meta
+## < :information_source: > Meta
 
 ---
 [![](assets/linkedin.png)](https://www.linkedin.com/in/sr-king)
