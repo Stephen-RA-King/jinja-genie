@@ -1,0 +1,76 @@
+[tool.pytest.ini_options]
+minversion = "9.0.3"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=main", "--cov=entrypoint",
+    "--cov-report", "html:reports/coverage",
+    "--html=reports/pytest.html",
+    "--capture=tee-sys",
+    "--durations=10",
+	"--cov-fail-under=70",
+]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+norecursedirs = [".git", ".*", "*.egg*", "docs", "dist", "build"]
+markers = [
+    "smoke: quick tests of major parts",
+    "bugs: tests that reproduce issues",
+    "slow: avoid these if in a hurry",
+	"integration: marks integration tests",
+    "windows_only: marks tests that require Windows-only imports",
+]
+filterwarnings = [
+    "error",
+    "ignore::DeprecationWarning",
+]
+cache_dir = "cache/.pytest_cache"
+xfail_strict = true
+log_cli = true
+log_cli_level = "INFO"
+console_output_style = "progress"
+
+[tool.coverage.run]
+branch = true
+source = ["main", "entrypoint"]
+parallel = true
+omit = [
+    "docs/*",
+    "tests/*",
+    "tools/*",
+    "tasks.py",
+]
+
+[tool.coverage.report]
+fail_under    = 70
+show_missing = true
+precision = 2
+skip_empty = true
+omit = [
+    "docs/*",
+    "tests/*",
+    "tools/*",
+    "tasks.py",
+]
+exclude_lines = [
+    "pragma: no cover",
+
+    # Generally only debug code uses this
+    "def __repr__",
+
+    # If a debug setting is set, skip testing
+    "if self\\.debug:",
+    "if settings.DEBUG",
+
+    # Don't worry about safety checks and expected errors
+    "raise AssertionError",
+    "raise NotImplementedError",
+
+    # Do not complain about code that will never run
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "@abc.abstractmethod",
+]

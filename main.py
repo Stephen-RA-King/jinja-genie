@@ -166,7 +166,7 @@ class Genie:
             with open(env_file) as file:
                 contents = read_context_data("env", file, None)
                 self._var_dict.update(contents)
-                os.remove(env_file)
+            os.remove(env_file)
 
     def use_env_variables(self) -> None:
         """Add os environ variables to a dictionary"""

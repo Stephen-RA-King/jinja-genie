@@ -1,64 +1,29 @@
-# Core Library modules
 import os
-import shutil
+import sys
 from pathlib import Path
 
-# Third party modules
 import pytest
 
-BASE_DIR = Path(__file__).parents[0]
+# Make the project root (containing main.py / entrypoint.py) importable.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 
-@pytest.fixture()
-def create_os_environ():
-    environ = os.environ
-    environ.clear()
-    environ["INPUT_DYNAMIC_SCRIPT"] = "none"
-    environ["INPUT_DATA_SOURCE"] = ""
-    environ["INPUT_DATA_TYPE"] = "env"
-    environ["INPUT_TEMPLATE"] = ""
-    environ["INPUT_TARGET"] = ""
-    environ["INPUT_PROTECT"] = ""
-    environ["INPUT_VARIABLES"] = ""
-    return environ
+@pytest.fixture(autouse=True)
+def isolated_cwd(tmp_path, monkeypatch):
+    """Run every test inside its own tmp directory.
+
+    Genie.hash_db ("jinja-genie.pkl") is a bare relative filename, so tests
+    must not share a working directory or they'll pollute each other's
+    hash database.
+    """
+    monkeypatch.chdir(tmp_path)
+    yield tmp_path
 
 
-@pytest.fixture()
-def create_input_variables():
-    environ = os.environ
-    environ.clear()
-    environ["INPUT_DYNAMIC_SCRIPT"] = "none"
-    environ["INPUT_DATA_SOURCE"] = ""
-    environ["INPUT_DATA_TYPE"] = "env"
-    environ["INPUT_TEMPLATE"] = ""
-    environ["INPUT_TARGET"] = ""
-    environ["INPUT_PROTECT"] = ""
-    environ["INPUT_VARIABLES"] = "server_host=staging.example.com\ntimeout=45\n"
-    return environ
-
-
-@pytest.fixture()
-def create_data_source_variables():
-    environ = os.environ
-    environ.clear()
-    environ["INPUT_DYNAMIC_SCRIPT"] = "none"
-    environ["INPUT_DATA_SOURCE"] = "resources\\ini_file"
-    environ["INPUT_DATA_TYPE"] = "env"
-    environ["INPUT_TEMPLATE"] = ""
-    environ["INPUT_TARGET"] = ""
-    environ["INPUT_PROTECT"] = ""
-    environ["INPUT_VARIABLES"] = ""
-    return environ
-
-
-
-
-
-
-
-
-
-
-
-
-
+@pytest.fixture(autouse=True)
+def clean_input_env(monkeypatch):
+    """Ensure no INPUT_* / stray env vars leak in from the host environment."""
+    for key in list(os.environ):
+        if key.startswith("INPUT_"):
+            monkeypatch.delenv(key, raising=False)
+    yield
