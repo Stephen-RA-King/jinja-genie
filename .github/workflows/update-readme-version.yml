@@ -16,7 +16,7 @@ jobs:
           sed -i "s|stephen-ra-king/jinja-genie@[^ ]*|stephen-ra-king/jinja-genie@${NEW_VERSION}|g" README.md
 
       - name: Commit updated README
-        uses: EndBug/add-and-commit@v10
+        uses: EndBug/add-and-commit@v11
         with:
           message: "docs: update README to ${{ github.event.release.tag_name }}"
           add: README.md
